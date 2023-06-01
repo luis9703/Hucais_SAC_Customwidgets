@@ -77,7 +77,7 @@ var getScriptPromisify = (src) => {
               name: 'Expected',
               type: 'funnel',
               sort: 'descending', // 设置为降序排序
-              minSize: '10%', // 设置漏斗图的最小宽度
+              minSize: '1%', // 设置漏斗图的最小宽度
               maxSize: '100%', // 设置漏斗图的最大宽度
               left: '10%',
               width: '80%',
@@ -90,19 +90,19 @@ var getScriptPromisify = (src) => {
               itemStyle: {
                 opacity: 0.7,
               },
-              emphasis: {
-                label: {
-                  position: 'inside',
-                  formatter: '{b}Expected: {c}',
-                },
-              },
+//               emphasis: {
+//                 label: {
+//                   position: 'inside',
+//                   formatter: '{b}Expected: {c}',
+//                 },
+//               },
               data,
             },
             {
               name: 'Actual',
               type: 'funnel',
               sort: 'descending', // 设置为降序排序
-              minSize: '10%', // 设置漏斗图的最小宽度
+              minSize: '1%', // 设置漏斗图的最小宽度
               maxSize: '100%', // 设置漏斗图的最大宽度
               left: '10%',
               width: '80%',
@@ -117,12 +117,12 @@ var getScriptPromisify = (src) => {
                 borderColor: '#fff',
                 borderWidth: 2,
               },
-              emphasis: {
-                label: {
-                  position: 'inside',
-                  formatter: '{b}Actual: {c}',
-                },
-              },
+//               emphasis: {
+//                 label: {
+//                   position: 'inside',
+//                   formatter: '{b}Actual: {c}',
+//                 },
+//               },
               data,
             },
           ],
