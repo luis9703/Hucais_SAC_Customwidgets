@@ -1,0 +1,123 @@
+var getScriptPromisify = (src) => {
+    return new Promise(resolve => {
+      $.getScript(src, resolve)
+    })
+  }
+  
+  (function () {
+    const prepared = document.createElement('template')
+    prepared.innerHTML = `
+        <style>
+        </style>
+        <div id="root" style="width: 100%; height: 100%;">
+        </div>
+      `
+    class SamplePrepared extends HTMLElement {
+      constructor () {
+        super()
+  
+        this._shadowRoot = this.attachShadow({ mode: 'open' })
+        this._shadowRoot.appendChild(prepared.content.cloneNode(true))
+  
+        this._root = this._shadowRoot.getElementById('root')
+  
+        this._props = {}
+  
+        this.render()
+      }
+  
+      onCustomWidgetResize (width, height) {
+        this.render()
+      }
+  
+      async render () {
+        await getScriptPromisify('https://cdn.bootcdn.net/ajax/libs/echarts/5.0.0/echarts.min.js')
+  
+        const chart = echarts.init(this._root)
+        const option = {
+          title: {
+            text: 'Funnel'
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c}%'
+          },
+          toolbox: {
+            feature: {
+              dataView: { readOnly: false },
+              restore: {},
+              saveAsImage: {}
+            }
+          },
+          legend: {
+            data: ['Show', 'Click', 'Visit', 'Inquiry', 'Order']
+          },
+          series: [
+            {
+              name: 'Expected',
+              type: 'funnel',
+              left: '10%',
+              width: '80%',
+              label: {
+                formatter: '{b}Expected'
+              },
+              labelLine: {
+                show: false
+              },
+              itemStyle: {
+                opacity: 0.7
+              },
+              emphasis: {
+                label: {
+                  position: 'inside',
+                  formatter: '{b}Expected: {c}%'
+                }
+              },
+              data: [
+                { value: 60, name: 'Visit' },
+                { value: 40, name: 'Inquiry' },
+                { value: 20, name: 'Order' },
+                { value: 80, name: 'Click' },
+                { value: 100, name: 'Show' }
+              ]
+            },
+            {
+              name: 'Actual',
+              type: 'funnel',
+              left: '10%',
+              width: '80%',
+              maxSize: '80%',
+              label: {
+                position: 'inside',
+                formatter: '{c}%',
+                color: '#fff'
+              },
+              itemStyle: {
+                opacity: 0.5,
+                borderColor: '#fff',
+                borderWidth: 2
+              },
+              emphasis: {
+                label: {
+                  position: 'inside',
+                  formatter: '{b}Actual: {c}%'
+                }
+              },
+              data: [
+                { value: 30, name: 'Visit' },
+                { value: 10, name: 'Inquiry' },
+                { value: 5, name: 'Order' },
+                { value: 50, name: 'Click' },
+                { value: 80, name: 'Show' }
+              ],
+              // Ensure outer shape will not be over inner shape when hover.
+              z: 100
+            }
+          ]
+        };
+        chart.setOption(option)
+      }
+    }
+  
+    customElements.define('com-sap-sample-echarts-prepared', SamplePrepared)
+  })()
