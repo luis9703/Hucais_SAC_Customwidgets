@@ -1,8 +1,8 @@
 var getScriptPromisify = (src) => {
     return new Promise(resolve => {
-      $.getScript(src, resolve)
-    })
-  }
+      $.getScript(src, resolve);
+    });
+  };
   
   (function () {
     const prepared = document.createElement('template')
@@ -11,50 +11,66 @@ var getScriptPromisify = (src) => {
         </style>
         <div id="root" style="width: 100%; height: 100%;">
         </div>
-      `
+      `;
     class SamplePrepared extends HTMLElement {
       constructor () {
-        super()
+        super();
   
-        this._shadowRoot = this.attachShadow({ mode: 'open' })
-        this._shadowRoot.appendChild(prepared.content.cloneNode(true))
+        this._shadowRoot = this.attachShadow({ mode: 'open' });
+        this._shadowRoot.appendChild(prepared.content.cloneNode(true));
   
-        this._root = this._shadowRoot.getElementById('root')
+        this._root = this._shadowRoot.getElementById('root');
   
-        this._props = {}
+        this._props = {};
   
-        this.render()
+        this.render();
       }
   
       onCustomWidgetResize (width, height) {
-        this.render()
+        this.render();
       }
-        
-    set myDataSource(dataBinding) {
-      this._myDataSource = dataBinding;
-      this.render();
-    }
-      async render () {
-        await getScriptPromisify('https://cdn.bootcdn.net/ajax/libs/echarts/5.0.0/echarts.min.js')
+
+      set myDataSource(dataBinding) {
+        this._myDataSource = dataBinding;
+        this.render();
+      }
   
-        const chart = echarts.init(this._root)
+      async render () {
+        await getScriptPromisify(
+          'https://cdn.bootcdn.net/ajax/libs/echarts/5.0.0/echarts.min.js'
+        );
+
+        if (!this._myDataSource || this._myDataSource.state !== "success") {
+          return;
+        }
+
+        const dimension = this._myDataSource.metadata.feeds.dimensions.values[0];
+        const measure = this._myDataSource.metadata.feeds.measures.values[0];
+        const data = this._myDataSource.data.map((data) => {
+          return {
+            name: data[dimension].label,
+            value: data[measure].raw,
+          };
+        });
+
+        const chart = echarts.init(this._root);
         const option = {
           title: {
-            text: 'Funnel'
+            text: 'Funnel',
           },
           tooltip: {
             trigger: 'item',
-            formatter: '{a} <br/>{b} : {c}%'
+            formatter: '{a} <br/>{b} : {c}%',
           },
           toolbox: {
             feature: {
               dataView: { readOnly: false },
               restore: {},
-              saveAsImage: {}
-            }
+              saveAsImage: {},
+            },
           },
           legend: {
-            data: ['Show', 'Click', 'Visit', 'Inquiry', 'Order']
+            data: ['Show', 'Click', 'Visit', 'Inquiry', 'Order'],
           },
           series: [
             {
@@ -63,27 +79,21 @@ var getScriptPromisify = (src) => {
               left: '10%',
               width: '80%',
               label: {
-                formatter: '{b}Expected'
+                formatter: '{b}Expected',
               },
               labelLine: {
-                show: false
+                show: false,
               },
               itemStyle: {
-                opacity: 0.7
+                opacity: 0.7,
               },
               emphasis: {
                 label: {
                   position: 'inside',
-                  formatter: '{b}Expected: {c}%'
-                }
+                  formatter: '{b}Expected: {c}%',
+                },
               },
-              data: [
-                { value: 60, name: 'Visit' },
-                { value: 40, name: 'Inquiry' },
-                { value: 20, name: 'Order' },
-                { value: 80, name: 'Click' },
-                { value: 100, name: 'Show' }
-              ]
+              data,
             },
             {
               name: 'Actual',
@@ -94,34 +104,28 @@ var getScriptPromisify = (src) => {
               label: {
                 position: 'inside',
                 formatter: '{c}%',
-                color: '#fff'
+                color: '#fff',
               },
               itemStyle: {
                 opacity: 0.5,
                 borderColor: '#fff',
-                borderWidth: 2
+                borderWidth: 2,
               },
               emphasis: {
                 label: {
                   position: 'inside',
-                  formatter: '{b}Actual: {c}%'
-                }
+                  formatter: '{b}Actual: {c}%',
+                },
               },
-              data: [
-                { value: 30, name: 'Visit' },
-                { value: 10, name: 'Inquiry' },
-                { value: 5, name: 'Order' },
-                { value: 50, name: 'Click' },
-                { value: 80, name: 'Show' }
-              ],
+              data,
               // Ensure outer shape will not be over inner shape when hover.
               z: 100
-            }
-          ]
+            },
+          ],
         };
-        chart.setOption(option)
+        chart.setOption(option);
       }
     }
   
-    customElements.define('com-sap-sample-echarts-prepared', SamplePrepared)
-  })()
+    customElements.define('com-sap-sample-echarts-prepared', SamplePrepared);
+  })();
