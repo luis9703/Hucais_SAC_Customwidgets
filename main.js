@@ -36,6 +36,9 @@ var getScriptPromisify = (src) => {
       }
   
       async render () {
+        await getScriptPromisify(
+          'https://cdn.bootcdn.net/ajax/libs/echarts/5.0.0/echarts.min.js'
+        );
 
         if (!this._myDataSource || this._myDataSource.state !== "success") {
           return;
@@ -76,7 +79,7 @@ var getScriptPromisify = (src) => {
               left: '10%',
               width: '80%',
               label: {
-                formatter: '{b}Expected',
+                formatter: '{b}: {c}',
               },
               labelLine: {
                 show: false,
