@@ -60,7 +60,7 @@ var getScriptPromisify = (src) => {
           },
           tooltip: {
             trigger: 'item',
-            formatter: '{a} <br/>{b} : {c}%',
+            formatter: '{a} <br/>{b} : {c}',
           },
           toolbox: {
             feature: {
@@ -90,7 +90,7 @@ var getScriptPromisify = (src) => {
               emphasis: {
                 label: {
                   position: 'inside',
-                  formatter: '{b}Expected: {c}%',
+                  formatter: '{b}Expected: {c}',
                 },
               },
               data,
@@ -103,7 +103,7 @@ var getScriptPromisify = (src) => {
               maxSize: '80%',
               label: {
                 position: 'inside',
-                formatter: '{c}%',
+                formatter: '{c}',
                 color: '#fff',
               },
               itemStyle: {
@@ -114,12 +114,10 @@ var getScriptPromisify = (src) => {
               emphasis: {
                 label: {
                   position: 'inside',
-                  formatter: '{b}Actual: {c}%',
+                  formatter: '{b}Actual: {c}',
                 },
               },
               data,
-              // Ensure outer shape will not be over inner shape when hover.
-              z: 100
             },
           ],
         };
