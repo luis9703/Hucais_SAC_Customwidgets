@@ -76,6 +76,7 @@ var getScriptPromisify = (src) => {
             {
               name: 'Expected',
               type: 'funnel',
+              sort: 'descending', // 设置为降序排序
               minSize: '10%', // 设置漏斗图的最小宽度
               maxSize: '100%', // 设置漏斗图的最大宽度
               left: '10%',
@@ -100,6 +101,7 @@ var getScriptPromisify = (src) => {
             {
               name: 'Actual',
               type: 'funnel',
+              sort: 'descending', // 设置为降序排序
               minSize: '10%', // 设置漏斗图的最小宽度
               maxSize: '100%', // 设置漏斗图的最大宽度
               left: '10%',
