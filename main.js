@@ -57,6 +57,7 @@ var getScriptPromisify = (src) => {
         const option = {
           title: {
             text: '云印营销漏斗',
+            color: '#fff'
           },
           tooltip: {
             trigger: 'item',
@@ -83,7 +84,7 @@ var getScriptPromisify = (src) => {
               width: '80%',
               label: {
                 formatter: '{b}: {c}',
-                color: '#132A43',
+                color: '#fff'
               },
               labelLine: {
                 show: false,
