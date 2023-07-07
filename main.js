@@ -56,7 +56,7 @@ var getScriptPromisify = (src) => {
         const chart = echarts.init(this._root);
         const option = {
           title: {
-            text: 'Funnel',
+            text: '云印营销漏斗',
           },
           tooltip: {
             trigger: 'item',
@@ -83,6 +83,7 @@ var getScriptPromisify = (src) => {
               width: '80%',
               label: {
                 formatter: '{b}: {c}',
+                color: '#132A43',
               },
               labelLine: {
                 show: false,
