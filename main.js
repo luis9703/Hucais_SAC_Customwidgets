@@ -86,7 +86,10 @@ var getScriptPromisify = (src) => {
               width: '80%',
               label: {
                 formatter: '{b}: {c}',
-                color: '#fff'
+                textStyle: {
+    color: '#fff',
+    fontSize: 20  // 设置字体大小为20
+  }
               },
               labelLine: {
                 show: false,
