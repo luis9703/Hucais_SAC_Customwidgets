@@ -57,7 +57,9 @@ var getScriptPromisify = (src) => {
         const option = {
           title: {
             text: '云印营销漏斗',
-            color: '#fff'
+            textStyle: {
+                        color: '#fff'
+                          }
           },
           tooltip: {
             trigger: 'item',
